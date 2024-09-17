@@ -1,8 +1,12 @@
 #pragma once
 
+#include <chrono>
 #include <cstdint>
+#include <random>
 
 const unsigned int START_ADDRESS = 0x200;
+
+const unsigned int FONTSET_START_ADDRESS = 0x50;
 const unsigned int FONTSET_SIZE = 80;
 
 class Chip8
@@ -19,6 +23,9 @@ public:
 	uint8_t keypad[16]{};
 	uint32_t video[64 * 32]{};
 	uint16_t opcode;
+
+	std::default_random_engine randGen;
+	std::uniform_int_distribution<uint8_t> randByte;
 
 	uint8_t fontset[FONTSET_SIZE] =
 	{
@@ -43,4 +50,5 @@ public:
 	Chip8();
 
 	void LoadROM(const char* filename);
+
 };
