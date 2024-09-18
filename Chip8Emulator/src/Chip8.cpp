@@ -35,3 +35,318 @@ void Chip8::LoadROM(const char* filename) {
 	}
 
 }
+
+void Chip8::OP_00E0() {
+	memset(video, 0, sizeof(video));
+}
+
+void Chip8::OP_00EE() {
+	sp--;
+	pc = stack[sp];
+}
+
+void Chip8::OP_1nnn() {
+	uint16_t address = opcode & 0x0FFFu;
+	pc = address;
+}
+
+void Chip8::OP_2nnn() {
+	uint16_t address = opcode & 0x0FFFu;
+
+	stack[sp] = pc;
+	sp++;
+
+	pc = address;
+}
+
+void Chip8::OP_3xnn() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t value = opcode & 0x00FFu;
+
+	if (registers[Vx] == value)
+	{
+		pc += 2;
+	}
+}
+
+void Chip8::OP_4xnn() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t value = opcode & 0x00FFu;
+
+	if (registers[Vx] != value)
+	{
+		pc += 2;
+	}
+}
+
+void Chip8::OP_5XY0() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
+
+	if (registers[Vx] == registers[Vy])
+	{
+		pc += 2;
+	}
+}
+
+void Chip8::OP_6XNN() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t value = opcode & 0x00FFu;
+
+	registers[Vx] = value;
+}
+
+void Chip8::OP_7XNN() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t value = opcode & 0x00FFu;
+
+	registers[Vx] += value;
+}
+
+void Chip8::OP_8XY0() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
+
+	registers[Vx] = registers[Vy];
+}
+
+void Chip8::OP_8XY1() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
+
+	registers[Vx] |= registers[Vy];
+}
+
+void Chip8::OP_8XY2() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
+
+	registers[Vx] &= registers[Vy];
+}
+
+void Chip8::OP_8XY3() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
+
+	registers[Vx] ^= registers[Vy];
+}
+
+void Chip8::OP_8XY4() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
+
+	uint16_t sum = registers[Vx] + registers[Vy];
+
+	if (sum > 255)
+	{
+		registers[0xF] = 1;
+	}
+	else
+	{
+		registers[0xF] = 1;
+	}
+
+	registers[Vx] = sum & 0xFFu;
+}
+
+void Chip8::OP_8XY5() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
+
+	if (registers[Vy] > registers[Vx])
+	{
+		registers[0xF] = 0;
+	}
+	else
+	{
+		registers[0xF] = 1;
+	}
+	
+	registers[Vx] -= registers[Vy];
+}
+
+void Chip8::OP_8XY6() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+
+	registers[0xF] = registers[Vx] & 1;
+	registers[Vx] >>= 1;
+}
+
+void Chip8::OP_8XY7() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
+
+	if (registers[Vx] > registers[Vy])
+	{
+		registers[0xF] = 0;
+	}
+	else
+	{
+		registers[0xF] = 1;
+	}
+	registers[Vx] = registers[Vy] - registers[Vx];
+}
+
+void Chip8::OP_8XYE() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+
+	registers[0xF] = (registers[Vx] & 0x80u) >> 7u;
+
+	registers[Vx] <<= 1;
+}
+
+void Chip8::OP_9XY0() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
+
+	if (registers[Vx] != registers[Vy])
+	{
+		pc += 2;
+	}
+}
+
+void Chip8::OP_ANNN() {
+	uint16_t value = opcode & 0x0FFFu;
+	index = value;
+}
+
+void Chip8::OP_BNNN() {
+	uint16_t value = opcode & 0x0FFFu;
+	pc = value + registers[0];
+}
+
+void Chip8::OP_CXNN() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t value = opcode & 0x00FF;
+
+	registers[Vx] = randByte(randGen) & value;
+}
+
+void Chip8::OP_DXYN() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
+	uint8_t height = opcode & 0xFu;
+
+	uint8_t xPos = registers[Vx] % VIDEO_WIDTH;
+	uint8_t yPos = registers[Vy] % VIDEO_HEIGHT;
+
+	registers[0xF] = 0;
+
+	for (size_t row = 0; row < height; row++)
+	{
+		uint8_t spriteByte = memory[index + row];
+		for (size_t bit = 0; bit < 8; bit++)
+		{
+			uint8_t spriteBit = spriteByte & (0x80u >> bit);
+			uint32_t* screenBit = &video[xPos + (VIDEO_WIDTH * (yPos + row)) + bit];
+
+			if (spriteBit != 0)
+			{
+				if (*screenBit == 0xFFFFFFF)
+				{
+					registers[0xF] = 1;
+				}
+
+				*screenBit ^= 0xFFFFFFFF;
+			}
+
+		}
+	}
+}
+
+void Chip8::OP_EX9E() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t key = registers[Vx];
+
+	if (keypad[key] == 1)
+	{
+		pc += 2;
+	}
+}
+
+void Chip8::OP_EXA1() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t key = registers[Vx];
+
+	if (keypad[key] == 0)
+	{
+		pc += 2;
+	}
+}
+
+void Chip8::OP_FX07() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	registers[Vx] = delayTimer;
+}
+
+void Chip8::OP_FX0A() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+
+	for (size_t key = 0; key < 16; key++)
+	{
+		if (keypad[key] == 1)
+		{
+			registers[Vx] = key;
+			break;
+		}
+	}
+	pc -= 2;
+}
+
+void Chip8::OP_FX15() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+
+	delayTimer = registers[Vx];
+}
+
+void Chip8::OP_FX18() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+
+	soundTimer = registers[Vx];
+}
+
+void Chip8::OP_FX1E() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+
+	index += registers[Vx];
+	if (index > 0xFFF)
+	{
+		registers[0xFu] = 1;
+	}
+}
+
+void Chip8::OP_FX29() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t value = registers[Vx];
+
+	index = FONTSET_START_ADDRESS + (value * 5);
+}
+
+void Chip8::OP_FX33() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+	uint8_t value = registers[Vx];
+
+	for (size_t i = 2; i <= 0; i--)
+	{
+		memory[index + 2] = value % 10;
+		value /= 10;
+	}
+}
+
+void Chip8::OP_FX55() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+
+	for (size_t i = 0; i <= Vx; i++)
+	{
+		memory[index + i] = registers[i];
+	}
+}
+
+void Chip8::OP_FX65() {
+	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+
+	for (size_t i = 0; i <= Vx; i++)
+	{
+		registers[i] = memory[index + i];
+	}
+}
