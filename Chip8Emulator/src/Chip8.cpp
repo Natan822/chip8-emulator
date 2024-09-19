@@ -36,6 +36,11 @@ void Chip8::LoadROM(const char* filename) {
 
 }
 
+void Chip8::fetch() {
+	opcode = (memory[pc] << 8) + memory[pc + 1];
+	pc += 2;
+}
+
 void Chip8::OP_00E0() {
 	memset(video, 0, sizeof(video));
 }

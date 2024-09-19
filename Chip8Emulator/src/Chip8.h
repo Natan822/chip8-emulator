@@ -14,6 +14,7 @@ const unsigned int VIDEO_HEIGHT = 32;
 
 class Chip8
 {
+
 public:
 	uint8_t registers[16]{};
 	uint8_t memory[4096]{};
@@ -52,7 +53,9 @@ public:
 
 	Chip8();
 
+private:
 	void LoadROM(const char* filename);
+	void fetch();
 	
 	// Instructions
 	void OP_00E0(); // CLS
