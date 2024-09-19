@@ -60,6 +60,7 @@ public:
 	Chip8Table tablesF[0x65 + 1]{};
 
 	Chip8();
+	~Chip8();
 
 private:
 	void LoadROM(const char* filename);

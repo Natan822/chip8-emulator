@@ -74,6 +74,20 @@ Chip8::Chip8()
 	tablesF[0x65] = &Chip8::OP_FX65;
 }
 
+Chip8::~Chip8() {
+	delete[] memory;
+	delete[] registers;
+	delete[] stack;
+	delete[] video;
+	delete[] keypad;
+
+	delete[] tables;
+	delete[] tables0;
+	delete[] tables8;
+	delete[] tablesE;
+	delete[] tablesF;
+}
+
 void Chip8::table0() {
 	(this->*tables0[opcode & 0xFu])();
 }
