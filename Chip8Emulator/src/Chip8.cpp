@@ -12,6 +12,82 @@ Chip8::Chip8()
 	}
 
 	randByte = std::uniform_int_distribution<uint8_t>(0, 255U);
+
+	// Tables
+	tables[0x0] = &Chip8::table0;
+	tables[0x1] = &Chip8::OP_1nnn;
+	tables[0x2] = &Chip8::OP_2nnn;
+	tables[0x3] = &Chip8::OP_3xnn;
+	tables[0x4] = &Chip8::OP_4xnn;
+	tables[0x5] = &Chip8::OP_5XY0;
+	tables[0x6] = &Chip8::OP_6XNN;
+	tables[0x7] = &Chip8::OP_7XNN;
+	tables[0x8] = &Chip8::table8;
+	tables[0x9] = &Chip8::OP_9XY0;
+	tables[0xA] = &Chip8::OP_ANNN;
+	tables[0xB] = &Chip8::OP_BNNN;
+	tables[0xC] = &Chip8::OP_CXNN;
+	tables[0xD] = &Chip8::OP_DXYN;
+	tables[0xE] = &Chip8::tableE;
+	tables[0xF] = &Chip8::tableF;
+
+	for (size_t i = 0; i <= 0xE; i++)
+	{
+		tables0[i] = &Chip8::OP_NULL;
+		tables8[i] = &Chip8::OP_NULL;
+		tablesE[i] = &Chip8::OP_NULL;
+	}
+
+	// Tables 0
+	tables0[0] = &Chip8::OP_00E0;
+	tables0[0xE] = &Chip8::OP_00EE;
+
+	// Tables 8
+	tables8[0x0] = &Chip8::OP_8XY0;
+	tables8[0x1] = &Chip8::OP_8XY1;
+	tables8[0x2] = &Chip8::OP_8XY2;
+	tables8[0x3] = &Chip8::OP_8XY3;
+	tables8[0x4] = &Chip8::OP_8XY4;
+	tables8[0x5] = &Chip8::OP_8XY5;
+	tables8[0x6] = &Chip8::OP_8XY6;
+	tables8[0x7] = &Chip8::OP_8XY7;
+	tables8[0xE] = &Chip8::OP_8XYE;
+
+	// Tables E
+	tablesE[0x1] = &Chip8::OP_EXA1;
+	tablesE[0xE] = &Chip8::OP_EX9E;
+
+	for (size_t i = 0; i <= 0x65; i++)
+	{
+		tablesF[i] = &Chip8::OP_NULL;
+	}
+
+	// Tables F
+	tablesF[0x07] = &Chip8::OP_FX07;
+	tablesF[0x0A] = &Chip8::OP_FX0A;
+	tablesF[0x15] = &Chip8::OP_FX15;
+	tablesF[0x18] = &Chip8::OP_FX18;
+	tablesF[0x1E] = &Chip8::OP_FX1E;
+	tablesF[0x29] = &Chip8::OP_FX29;
+	tablesF[0x33] = &Chip8::OP_FX33;
+	tablesF[0x55] = &Chip8::OP_FX55;
+	tablesF[0x65] = &Chip8::OP_FX65;
+}
+
+void Chip8::table0() {
+	(this->*tables0[opcode & 0xFu])();
+}
+
+void Chip8::table8() {
+	(this->*tables8[opcode & 0xFu])();
+}
+
+void Chip8::tableE() {
+	(this->*tablesE[opcode & 0xFu])();
+}
+
+void Chip8::tableF() {
+	(this->*tablesF[opcode & 0xFFu])();
 }
 
 void Chip8::LoadROM(const char* filename) {
@@ -36,10 +112,32 @@ void Chip8::LoadROM(const char* filename) {
 
 }
 
+void Chip8::Cycle() {
+	Chip8::fetch();
+	Chip8::execute();
+
+	if (soundTimer > 0)
+	{
+		soundTimer--;
+	}
+
+	if (delayTimer > 0)
+	{
+		delayTimer--;
+	}
+}
+
 void Chip8::fetch() {
 	opcode = (memory[pc] << 8) + memory[pc + 1];
 	pc += 2;
 }
+
+void Chip8::execute() {
+	(this->*tables[opcode & 0xF000 >> 12u])();
+}
+
+// Instructions
+void Chip8::OP_NULL() {}
 
 void Chip8::OP_00E0() {
 	memset(video, 0, sizeof(video));

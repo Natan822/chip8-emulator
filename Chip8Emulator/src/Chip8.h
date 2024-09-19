@@ -15,6 +15,8 @@ const unsigned int VIDEO_HEIGHT = 32;
 class Chip8
 {
 
+	typedef void (Chip8::*Chip8Table)();
+
 public:
 	uint8_t registers[16]{};
 	uint8_t memory[4096]{};
@@ -51,13 +53,27 @@ public:
 		0xF0, 0x80, 0xF0, 0x80, 0x80  // F
 	};
 
+	Chip8Table tables[0xF + 1]{};
+	Chip8Table tables0[0xE + 1]{};
+	Chip8Table tables8[0xE + 1]{};
+	Chip8Table tablesE[0xE + 1]{};
+	Chip8Table tablesF[0x65 + 1]{};
+
 	Chip8();
 
 private:
 	void LoadROM(const char* filename);
+	void Cycle();
 	void fetch();
+	void execute();
 	
+	void table0();
+	void table8();
+	void tableE();
+	void tableF();
+
 	// Instructions
+	void OP_NULL(); // Nothing
 	void OP_00E0(); // CLS
 	void OP_00EE(); // RET
 	void OP_1nnn(); // JMP
