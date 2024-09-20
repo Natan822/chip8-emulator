@@ -399,3 +399,6 @@ FodyWeavers.xsd
 
 *.py
 *.txt
+
+*.dll
+sdl2/
