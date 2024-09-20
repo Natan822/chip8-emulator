@@ -147,7 +147,7 @@ void Chip8::fetch() {
 }
 
 void Chip8::execute() {
-	(this->*tables[opcode & 0xF000 >> 12u])();
+	(this->*tables[(opcode & 0xF000) >> 12u])();
 }
 
 // Instructions
