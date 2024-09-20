@@ -31,7 +31,7 @@ public:
 	uint16_t opcode;
 
 	std::default_random_engine randGen;
-	std::uniform_int_distribution<uint8_t> randByte;
+	std::uniform_int_distribution<int> randByte;
 
 	uint8_t fontset[FONTSET_SIZE] =
 	{

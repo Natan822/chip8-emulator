@@ -11,7 +11,7 @@ Chip8::Chip8()
 		memory[FONTSET_START_ADDRESS + i] = fontset[i];
 	}
 
-	randByte = std::uniform_int_distribution<uint8_t>(0, 255U);
+	randByte = std::uniform_int_distribution<int>(0, 255u);
 
 	// Tables
 	tables[0x0] = &Chip8::table0;
