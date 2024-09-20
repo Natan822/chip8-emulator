@@ -62,9 +62,10 @@ public:
 	Chip8();
 	~Chip8();
 
-private:
 	void LoadROM(const char* filename);
 	void Cycle();
+
+private:
 	void fetch();
 	void execute();
 	
