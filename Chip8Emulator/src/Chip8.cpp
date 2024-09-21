@@ -75,17 +75,6 @@ Chip8::Chip8()
 }
 
 Chip8::~Chip8() {
-	delete[] memory;
-	delete[] registers;
-	delete[] stack;
-	delete[] video;
-	delete[] keypad;
-
-	delete[] tables;
-	delete[] tables0;
-	delete[] tables8;
-	delete[] tablesE;
-	delete[] tablesF;
 }
 
 void Chip8::table0() {
