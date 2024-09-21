@@ -6,7 +6,7 @@
 const int WINDOW_WIDTH = 640;
 const int WINDOW_HEIGHT = 320;
 
-const float CYCLE_DELAY = 16.67F;
+const float CYCLE_DELAY = 8;
 
 int main(int argc, char* argv[]) {
 
