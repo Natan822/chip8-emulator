@@ -135,11 +135,13 @@
   <ItemGroup>
     <ClCompile Include="src\Chip8.cpp" />
     <ClCompile Include="src\Graphics.cpp" />
+    <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Chip8.h" />
     <ClInclude Include="src\Graphics.h" />
+    <ClInclude Include="src\Input.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
