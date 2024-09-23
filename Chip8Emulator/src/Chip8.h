@@ -62,7 +62,7 @@ public:
 	Chip8();
 	~Chip8();
 
-	void LoadROM(const char* filename);
+	void LoadROM(std::string filePath);
 	void Cycle();
 
 private:

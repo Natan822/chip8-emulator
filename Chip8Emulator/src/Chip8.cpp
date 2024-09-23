@@ -93,25 +93,27 @@ void Chip8::tableF() {
 	(this->*tablesF[opcode & 0xFFu])();
 }
 
-void Chip8::LoadROM(const char* filename) {
-	std::ifstream file(filename, std::ios::binary | std::ios::ate);
+void Chip8::LoadROM(std::string filePath) {
+	std::ifstream file(filePath, std::ios::binary | std::ios::ate);
 
-	if (file.is_open())
+	if (!file.is_open())
 	{
-		std::streampos size = file.tellg();
-		char* buffer = new char[size];
-
-		file.seekg(0, std::ios::beg);
-		file.read(buffer, size);
-		file.close();
-
-		for (int i = 0; i < size; i++)
-		{
-			memory[START_ADDRESS + i] = buffer[i];
-		}
-
-		delete[] buffer;
+		throw std::runtime_error("Could not open file: " + filePath);
 	}
+
+	std::streampos size = file.tellg();
+	char* buffer = new char[size];
+
+	file.seekg(0, std::ios::beg);
+	file.read(buffer, size);
+	file.close();
+
+	for (int i = 0; i < size; i++)
+	{
+		memory[START_ADDRESS + i] = buffer[i];
+	}
+
+	delete[] buffer;
 
 }
 

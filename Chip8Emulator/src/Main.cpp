@@ -57,11 +57,18 @@ int main(int argc, char* argv[]) {
 	if (handleArguments(argc, argv) == 0) {
 		return 1;
 	}
-	
-	initialize((VIDEO_WIDTH * windowScale), (VIDEO_HEIGHT * windowScale), VIDEO_WIDTH, VIDEO_HEIGHT);
 
 	Chip8 chip8;
-	chip8.LoadROM(filePath.c_str());
+	try {
+		chip8.LoadROM(filePath);
+	}
+	catch (std::runtime_error& e) {
+		std::cerr << "Error: " << e.what() << std::endl;
+		std::cerr << "Please verify the file path specified." << std::endl;
+		return 1;
+	}
+
+	initialize((VIDEO_WIDTH * windowScale), (VIDEO_HEIGHT * windowScale), VIDEO_WIDTH, VIDEO_HEIGHT);
 
 	int videoPitch = sizeof(chip8.video[0]) * VIDEO_WIDTH;
 
