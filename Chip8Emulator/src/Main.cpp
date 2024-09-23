@@ -25,7 +25,9 @@ int handleArguments(int argc, char* argv[]) {
 
 	if (vm.count("help") || argc == 0)
 	{
+		std::cout << std::endl;
 		std::cout << "Usage: .\\Chip8Emulator.exe [-h | -f <file-path> | -c <cycle-delay> | -w <window-scale>]" << std::endl;
+		std::cout << std::endl;
 		std::cout << desc << std::endl;
 		return 0;
 	}
@@ -36,7 +38,8 @@ int handleArguments(int argc, char* argv[]) {
 	}
 	else
 	{
-		std::cerr << "File path was not specified. Try \".\\Chip8Emulator.exe -h\" for more info." << std::endl;
+		std::cerr << std::endl << "File path was not specified. Try \".\\Chip8Emulator.exe -h\" for more info." << std::endl;
+		std::cerr << std::endl;
 		return 0;
 	}
 
