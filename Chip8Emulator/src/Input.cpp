@@ -1,6 +1,5 @@
 #include "SDL.h"
 #include "Input.h"
-#include <iostream>
 
 bool inputProcessing(uint8_t* keypad) {
 	bool quit = false;
@@ -31,7 +30,6 @@ void handleKeyDown(uint8_t* keypad, SDL_Event event, bool* quit) {
 	{
 	case SDLK_ESCAPE:
 		*quit = true;
-		std::cout << "escape";
 		break;
 
 	case SDLK_x:
