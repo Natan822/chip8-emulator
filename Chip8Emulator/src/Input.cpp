@@ -1,6 +1,8 @@
 #include "SDL.h"
 #include "Input.h"
 
+#include "globals.h"
+
 bool inputProcessing(uint8_t* keypad) {
 	bool quit = false;
 
@@ -94,6 +96,14 @@ void handleKeyDown(uint8_t* keypad, SDL_Event event, bool* quit) {
 
 	case SDLK_v:
 		keypad[0xF] = 1;
+		break;
+
+	case SDLK_LSHIFT:
+		cycleDelay -= 1.0f;
+		break;
+
+	case SDLK_LCTRL:
+		cycleDelay += 1.0f;
 		break;
 	}
 }

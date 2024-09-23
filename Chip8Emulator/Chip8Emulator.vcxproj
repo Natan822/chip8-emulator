@@ -140,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Chip8.h" />
+    <ClInclude Include="src\globals.h" />
     <ClInclude Include="src\Graphics.h" />
     <ClInclude Include="src\Input.h" />
   </ItemGroup>

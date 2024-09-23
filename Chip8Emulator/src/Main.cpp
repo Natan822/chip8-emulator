@@ -6,7 +6,7 @@
 #include <iostream>
 
 int windowScale = 10;
-float cycleDelay = 8;
+float cycleDelay = 8.0f;
 std::string filePath;
 
 namespace po = boost::program_options;
