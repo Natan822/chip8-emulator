@@ -25,7 +25,7 @@ int handleArguments(int argc, char* argv[]) {
 
 	if (vm.count("help") || argc == 0)
 	{
-		std::cout << "Usage: .\Chip8Emulator.exe [-h | -f <file-path> | -c <cycle-delay> | -w <window-scale>]" << std::endl;
+		std::cout << "Usage: .\\Chip8Emulator.exe [-h | -f <file-path> | -c <cycle-delay> | -w <window-scale>]" << std::endl;
 		std::cout << desc << std::endl;
 		return 0;
 	}
