@@ -16,7 +16,8 @@ Allowed options:
 
 ### Additional Controls
 LShift - Decrease Cycle Delay by 1(increase emulation speed)  
-LCtrl - Increase Cycle Delay by 1(decrease emulation speed)
+LCtrl - Increase Cycle Delay by 1(decrease emulation speed)  
+Esc - Exit
 
 ## Build Requirements
 - SDL2 v2.30.7: Used for rendering.
