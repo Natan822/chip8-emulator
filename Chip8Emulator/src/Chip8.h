@@ -12,6 +12,8 @@ const unsigned int FONTSET_SIZE = 80;
 const unsigned int VIDEO_WIDTH = 64;
 const unsigned int VIDEO_HEIGHT = 32;
 
+extern bool screenUpdate;
+
 class Chip8
 {
 

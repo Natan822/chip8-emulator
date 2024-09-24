@@ -1,6 +1,8 @@
 #include "Chip8.h"
 #include <fstream>
 
+bool screenUpdate = true;
+
 Chip8::Chip8() 
 	: randGen(std::chrono::system_clock::now().time_since_epoch().count()) 
 {
@@ -331,6 +333,8 @@ void Chip8::OP_CXNN() {
 }
 
 void Chip8::OP_DXYN() {
+	screenUpdate = true;
+
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
 	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
 	uint8_t height = opcode & 0xFu;

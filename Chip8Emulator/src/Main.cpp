@@ -88,7 +88,11 @@ int main(int argc, char* argv[]) {
 		{
 			lastCycleTime = currentCycleTime;
 			chip8.Cycle();
-			update(chip8.video, videoPitch);
+			if (screenUpdate)
+			{
+				update(chip8.video, videoPitch);
+				screenUpdate = false;
+			}
 		}
 	}
 	shutdown();
