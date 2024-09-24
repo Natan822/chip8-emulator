@@ -350,7 +350,7 @@ void Chip8::OP_DXYN() {
 
 			if (spriteBit != 0)
 			{
-				if (*screenBit == 0xFFFFFFF)
+				if (*screenBit == 0xFFFFFFFF)
 				{
 					registers[0xF] = 1;
 				}
