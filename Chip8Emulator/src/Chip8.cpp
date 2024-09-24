@@ -434,9 +434,9 @@ void Chip8::OP_FX33() {
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
 	uint8_t value = registers[Vx];
 
-	for (size_t i = 2; i <= 0; i--)
+	for (int i = 2; i >= 0; i--)
 	{
-		memory[index + 2] = value % 10;
+		memory[index + i] = value % 10;
 		value /= 10;
 	}
 }
